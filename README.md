@@ -3,6 +3,7 @@ Papres I find interesting. Mostly system related.
 
 ------------------------------------------------------------------------------
 ## Nexus: A GPU Cluster Engine for Accelerating DNN-Based Video Analysis
+
 **Problem and Motivation**
 GPU instances is much more powerful than CPU instances. But existing serving systems do not optimize resources for DNN applications. Fundamental challenge: distribute large workload onto a cluster of accelerators with high utilization and latency requirements. 
 Motivation: a DNN serving system that offers 1) high throughput by leveraging GPU hardwares 2) low latency (meeting latency SLO(server level objects) requirements) 3) flexibility(multi-application, auto scaling etc)
@@ -28,6 +29,8 @@ optimize latency partition for the sequential computation tasks given a DNN mode
 
 merge tasks of 2 nodes into 1 node with adjustments made to duty cycle and batch size if the merged node would not overwork. This is to increase GPU utilization of each instance, thus increase the system's throughput. To extend the algorithm system-wide, Nexus does the following: 1)move tasks from the least used instances to other instances 2)release an instance if no longer executing tasks 3)drop the cheapest tasks on an instance if that instance is overworked
 
+**Source Code**
+https://github.com/uwsampl/nexus
 
 ------------------------------------------------------------------------------
 ## PipeDream: Generalized Pipeline Parallelism for DNN Training
