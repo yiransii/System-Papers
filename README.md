@@ -2,6 +2,34 @@
 Papres I find interesting. Mostly system related.
 
 ------------------------------------------------------------------------------
+## Nexus: A GPU Cluster Engine for Accelerating DNN-Based Video Analysis
+**Problem and Motivation**
+GPU instances is much more powerful than CPU instances. But existing serving systems do not optimize resources for DNN applications. Fundamental challenge: distribute large workload onto a cluster of accelerators with high utilization and latency requirements. 
+Motivation: a DNN serving system that offers 1) high throughput by leveraging GPU hardwares 2) low latency (meeting latency SLO(server level objects) requirements) 3) flexibility(multi-application, auto scaling etc)
+
+**Solution Overview**
+
+
+Pipeline descriptions:
+
+User upload a model with some information about the model(batch-latency profile) into the system model database. Upon submitting a query with some latency constraint, the system first compute the optimized latency split then determines if model-prefix could be done, then performs squichy bin packing to minimize #GPUs used to compute the query and lower runtime latency while meeting the latency constraint. Then the global scheduler allocated GPUs as needed and sends the query, the model, and all other information to those GPU instances to do the serving. Once a query is completed, the GPU instances talks to the frontend of the system, which returns the result to the user. The system also takes workload data into accounts when managing GPUs via its cluster manager and global scheduler. 
+
+3 main contributions/optimizations:
+
+1) prefixed batching:
+
+identify the common prefix of different models and execute the common prefix as a batch for different inputs. Thus only need to load the common prefix of the model into memory once, which lowers the latency-wise cost
+
+2) complex query analysis via optimized latency partition:
+ 
+optimize latency partition for the sequential computation tasks given a DNN model data graph(tree-like graph) with dynamic programming to minimize the number of GPUs required to complete a query. Specifically, let f(u, t) be the number of GPUs required to complete a query with input u(a given model) and t(the latency requirements). f(u,t) = min( min(#GPU(cur_node_given_latency_requirement)) + min(Sum(#GPU(child_nodes_given_latency_requirement)))  
+
+3) batch-aware resource allocator via squishy bin packing algorithm: 
+
+merge tasks of 2 nodes into 1 node with adjustments made to duty cycle and batch size if the merged node would not overwork. This is to increase GPU utilization of each instance, thus increase the system's throughput. To extend the algorithm system-wide, Nexus does the following: 1)move tasks from the least used instances to other instances 2)release an instance if no longer executing tasks 3)drop the cheapest tasks on an instance if that instance is overworked
+
+
+------------------------------------------------------------------------------
 ## PipeDream: Generalized Pipeline Parallelism for DNN Training
 **Problem and Motivation**
 
