@@ -38,7 +38,8 @@ merge tasks of 2 nodes into 1 node with adjustments made to duty cycle and batch
 
 **Questions Raised/Potential Improvements**
 
-when a model is too large that one GPU could not load it into its memory, we could build a model partition machanism on top of Nexus.
+1. when a model is too large that one GPU could not load it into its memory, we could build a model partition machanism on top of Nexus.
+2. how would the above techiniques perform on other ML applications that are not video analysis? Or complex queies that does not result in a tree-structured data flow graph?
 
 ------------------------------------------------------------------------------
 ## PipeDream: Generalized Pipeline Parallelism for DNN Training
