@@ -8,6 +8,9 @@ Papres I find interesting. Mostly system related.
 **Source Code**
 https://github.com/uwsampl/nexus
 
+**Paper**
+https://dl.acm.org/doi/pdf/10.1145/3341301.3359658
+
 **Problem and Motivation**
 GPU instances is much more powerful than CPU instances. But existing serving systems do not optimize resources for DNN applications. Fundamental challenge: distribute large workload onto a cluster of accelerators with high utilization and latency requirements. 
 Motivation: a DNN serving system that offers 1) high throughput by leveraging GPU hardwares 2) low latency (meeting latency SLO(server level objects) requirements) 3) flexibility(multi-application, auto scaling etc)
